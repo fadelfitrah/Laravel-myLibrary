@@ -1,0 +1,116 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use App\Models\Genre;
+use App\Models\Book;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+class UserController extends Controller
+{
+    public function index()
+    {
+        $books = Book::all();
+        $genres = Genre::all();
+        return view('users.dashboard', compact('books', 'genres'));
+    }
+
+    public function show($id)
+    {
+        $user = Auth::user()->findOrFail($id);
+        return view('users.showProfile', compact('user'));
+    }
+
+    public function register(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+            'profile_image' => 'nullable|image|max:2048',
+            'address' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'role' => 'nullable|in:user,admin,librarian',
+            'is_active' => 'nullable|boolean',
+        ]);
+
+        if($request->hasFile('profile_image')) {
+            $imagePath = $request->file('profile_image')->store('avatar', 'public');
+            $validated['profile_image'] = $imagePath;
+        } else {
+            $validated['profile_image'] = null;
+        }
+
+        $validated['password'] = bcrypt($validated['password']); // Hash the password
+
+        $user = User::create($validated);
+
+        return redirect()->route('login')->with('success', 'Registration successful. Please log in.');
+    }
+
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('users.editProfile', compact('user'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
+            'address' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'profile_image' => 'nullable|image|max:2048',
+        ]);
+
+        if($request->hasFile('profile_image')) {
+            $imagePath = $request->file('profile_image')->store('avatar', 'public');
+            $validated['profile_image'] = $imagePath;
+        } else {
+            $validated['profile_image'] = $user->profile_image;
+        }
+
+        if (isset($validated['password'])) {
+            $validated['password'] = bcrypt($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        $user->update($validated);
+
+        return redirect()->route('users.show', $user->id)->with('success', 'Profile updated successfully.');
+    }
+
+    public function changePassword(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $validated = $request->validate([
+            'current_password' => 'required|string',
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
+
+        if (!Hash::check($validated['current_password'], $user->password)) {
+            return response()->json(['error' => 'Current password is incorrect'], 403);
+        }
+
+        $user->password = bcrypt($validated['new_password']);
+        $user->save();
+
+        return redirect()->back()->with('success', 'Password changed successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+        return response()->json(null, 204);
+    }
+}
