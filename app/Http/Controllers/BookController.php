@@ -11,7 +11,7 @@ class BookController extends Controller
 {
     public function index()
     {
-        $genres = Genre::all();
+        $genres = Genre::all()->paginate(20);
         $books = Book::all();
         return view('users.dashboard', compact('books', 'genres'));
     }

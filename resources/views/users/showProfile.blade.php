@@ -1,7 +1,7 @@
 @extends('layouts.user')
 @section('title', 'Profile')
 @section('content')
-<div class="max-w-5xl mx-auto mt-10">
+<div class="max-w-5xl h-[70vh] mx-auto mt-10">
     <h1 class="text-2xl font-bold mb-6">User Profile</h1>
     <div class="bg-white rounded shadow p-6">
         <div class="flex items-center mb-4">
