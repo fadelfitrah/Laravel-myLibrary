@@ -111,5 +111,26 @@ class AdminController extends Controller
         return redirect()->route('admin.books')->with('success', 'Book deleted successfully.');
     }
 
+    public function createNewAdmin()
+    {
+        return view('admin.addAdmin');
+    }
 
+    public function storeNewAdmin(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+            'address' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:20',
+        ]);
+
+        $validated['password'] = bcrypt($validated['password']);
+        $validated['role'] = 'admin';
+
+        User::create($validated);
+
+        return redirect()->route('admin.users')->with('success', 'New admin created successfully.');
+    }
 }

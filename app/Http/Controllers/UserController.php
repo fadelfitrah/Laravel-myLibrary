@@ -44,7 +44,7 @@ class UserController extends Controller
             $validated['profile_image'] = null;
         }
 
-        $validated['password'] = bcrypt($validated['password']); // Hash the password
+        $validated['password'] = bcrypt($validated['password']);
 
         $user = User::create($validated);
 
@@ -78,7 +78,7 @@ class UserController extends Controller
         }
 
         if (isset($validated['password'])) {
-            $validated['password'] = bcrypt($validated['password']);
+            $validated['password'] = Hash($validated['password']);
         } else {
             unset($validated['password']);
         }

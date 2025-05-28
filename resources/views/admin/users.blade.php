@@ -4,8 +4,9 @@
 <div class="max-w-4xl mx-auto mt-10">
     <div class="bg-white rounded shadow p-8">
         <h1 class="text-2xl font-bold mb-4">Manage Users</h1>
+        <a href="{{ route('admin.addAdmin') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded mb-4">Add new admin</a>
         
-        <table class="min-w-full bg-white">
+        <table class="min-w-full bg-white mt-4">
             <thead>
                 <tr>
                     <th class="py-2 px-4 border-b">Name</th>
@@ -22,7 +23,7 @@
                     <td class="py-2 px-4 border-b">{{ $user->email }}</td>
                     <td class="py-2 px-4 border-b">{{ $user->role }}</td>
                     <td class="py-2 px-4 border-b">
-                        @if($user->is_active != null)
+                        @if($user->is_active)
                           <span class="text-green-600 font-semibold">Active</span>
                         @else
                             <span class="text-gray-400 font-semibold">Inactive</span>

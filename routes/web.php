@@ -23,6 +23,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/books/{id}', [AdminController::class, 'bookEdit'])->name('admin.books.edit');
     Route::put('/admin/books/{id}', [AdminController::class, 'bookUpdate'])->name('admin.books.update');
     Route::delete('/admin/books/{id}', [BookController::class, 'bookDestroy'])->name('admin.books.destroy');
+    Route::get('/admin/create-admin', [AdminController::class, 'createNewAdmin'])->name('admin.addAdmin');
+    Route::post('/admin/store-admin', [AdminController::class, 'storeNewAdmin'])->name('admin.storeAdmin');
 });
 
 // Authentication routes
