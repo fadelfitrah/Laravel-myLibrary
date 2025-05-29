@@ -23,9 +23,7 @@
     <div class="container mx-auto py-4">
         @yield('content')
     </div>
-
-    <footer >
-        @include('components.footer')
-    </footer>
+    
+    <x-footer />
 </body>
 </html>

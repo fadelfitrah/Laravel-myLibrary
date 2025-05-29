@@ -1,5 +1,5 @@
-<footer class="bg-gray-200 text-gray-900 mt-12 py-6">
-    <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+<footer class="bg-gray-200 text-gray-900 py-6 w-full mt-10 border-t border-gray-500">
+    <div class="container mx-auto px-4 flex flex-col md:flex-row justify-around items-center">
         <div class="mb-2 md:mb-0">
             <span class="font-bold">My Library</span> &copy; {{ date('Y') }}. All rights reserved.
             <span class="ml-2 text-gray-400 text-xs">Built with Laravel & TailwindCSS</span>

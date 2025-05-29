@@ -111,6 +111,6 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return back()->with('success', 'User deleted successfully.');
+        return route('users.dashboard')->with('success', 'User deleted successfully.');
     }
 }

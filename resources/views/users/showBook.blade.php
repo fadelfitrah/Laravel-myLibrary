@@ -39,7 +39,7 @@
                     <span class="text-green-600 font-semibold">Available</span>
                 @endif
                 </p>
-                <p class="text-sm text-justify w-1/2">{{ $book->description }}</p>
+                <p class="text-sm text-justify w-[25rem]">{{ $book->description }}</p>
             </div>
             @if(auth()->check())
                 <form action="{{ route('loans.store') }}" method="POST" class="mt-4">
