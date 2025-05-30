@@ -15,6 +15,23 @@ class UserController extends Controller
     {
         $books = Book::all();
         $genres = Genre::all();
+
+        $users = Auth::user();
+        $lastBorrow = $users->loans()->latest()->first();
+
+        if(!$lastBorrow) {
+            $recommendedBooks = collect();
+        } else {
+            $lastGenreId = $lastBorrow->book->genre_id;
+
+            $borrowedBookIds = $users->loans()->pluck('book_id');
+            $recommendedBooks = Book::where('genre_id', $lastGenreId)
+                ->whereNotIn('id', $borrowedBookIds)
+                ->get();
+
+            return view('users.dashboard', compact('books', 'genres', 'recommendedBooks'));
+        }
+
         return view('users.dashboard', compact('books', 'genres'));
     }
 
@@ -64,7 +81,6 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => 'sometimes|required|string|max:255',
             'email' => 'sometimes|required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8|confirmed',
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
             'profile_image' => 'nullable|image|max:2048',
@@ -75,12 +91,6 @@ class UserController extends Controller
             $validated['profile_image'] = $imagePath;
         } else {
             $validated['profile_image'] = $user->profile_image;
-        }
-
-        if (isset($validated['password'])) {
-            $validated['password'] = Hash($validated['password']);
-        } else {
-            unset($validated['password']);
         }
 
         $user->update($validated);
@@ -94,11 +104,11 @@ class UserController extends Controller
 
         $validated = $request->validate([
             'current_password' => 'required|string',
-            'new_password' => 'required|string|min:8|confirmed',
+            'new_password' => 'required|string|min:8',
         ]);
 
         if (!Hash::check($validated['current_password'], $user->password)) {
-            return response()->json(['error' => 'Current password is incorrect'], 403);
+            return redirect()->back()->with('error', 'Current password is incorrect');
         }
 
         $user->password = bcrypt($validated['new_password']);
@@ -111,6 +121,6 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return route('users.dashboard')->with('success', 'User deleted successfully.');
+        return redirect()->route('users.dashboard');
     }
 }

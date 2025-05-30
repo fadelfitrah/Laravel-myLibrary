@@ -65,9 +65,11 @@
             <div class="mb-4">
                 <label for="new_password" class="block text-sm font-medium text-gray-700">New Password</label>
                 <input type="password" name="new_password" id="new_password" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2">
-                @error('new_password')
-                    <span class="text-red-600 text-sm">{{ $message }}</span>
-                @enderror
+                @if(session('success'))
+                    <span class="text-green-600 text-sm">{{ session('success') }}</span>
+                @elseif(session('error'))
+                    <span class="text-red-600 text-sm">{{ session('error') }}</span>
+                @endif
             </div>
 
             <button type="submit" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Change Password</button>

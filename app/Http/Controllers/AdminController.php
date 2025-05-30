@@ -30,7 +30,7 @@ class AdminController extends Controller
 
     public function users()
     {
-        $users = User::paginate(10);
+        $users = User::all();
         return view('admin.users', compact('users'));
     }
 
@@ -51,7 +51,7 @@ class AdminController extends Controller
             'published_date' => 'nullable|date',
             'genre_id' => 'sometimes|required|exists:genres,id',
             'description' => 'nullable|string',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
@@ -93,9 +93,6 @@ class AdminController extends Controller
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('books', 'public');
             $validated['image_url'] = $imagePath;
-        }
-        else {
-            $validated['image_url'] = $book->image_url; 
         }
 
         $book->update($validated);

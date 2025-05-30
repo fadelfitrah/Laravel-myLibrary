@@ -1,5 +1,5 @@
 <nav class="bg-white p-4 text-gray-900 px-6 shadow flex justify-between items-center">
-    <span class="font-bold text-lg px-6">My Library</span>
+    <a href="{{ url('/') }}" class="font-bold text-2xl px-6">My Library</a>
     <div class="flex space-x-9">
         <a href="{{ route('users.index') }}" class="hover:underline">Dashboard</a>
         <a href="{{ route('dashboard') }}" class="hover:underline">All Books</a>

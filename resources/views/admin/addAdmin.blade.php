@@ -8,7 +8,7 @@
         <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required class="w-full px-3 py-2 border rounded mb-4" />
         <input type="password" name="password" placeholder="Password" required class="w-full px-3 py-2 border rounded mb-4" />
         <input type="password" name="password_confirmation" placeholder="Confirm Password" required class="w-full px-3 py-2 border rounded mb-4" />
-        <button type="submit">Add Admin</button>
+        <button type="submit" class="bg-blue-800 hover:bg-blue-900 text-white px-4 py-2 rounded">Add Admin</button>
     </form>
 </div>
 @endsection

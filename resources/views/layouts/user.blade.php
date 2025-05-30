@@ -17,10 +17,10 @@
     @else
     <header>
         @include('components.user_navbar', ['user' => auth()->user()])
-    </header>
-      
+    </header>      
     @endguest
-    <div class="container mx-auto py-4">
+
+    <div class="mx-auto py-4">
         @yield('content')
     </div>
     

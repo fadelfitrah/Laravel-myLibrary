@@ -3,20 +3,22 @@
 @section('content')
 <!-- Jumbotron Start -->
  @guest
-<div class="bg-white rounded-lg shadow mx-auto max-w-5xl p-8 text-black text-center">
+<div class="bg-white rounded-lg shadow mx-auto max-w-7xl p-8 text-black text-center">
     <h1 class="text-3xl font-bold mb-2">Welcome!</h1>
     <p class="text-lg">Happy reading and managing your library at <span class="font-semibold">My Library</span> 📚</p>
-    <p class="text-sm mt-4">Please <a href="{{ route('login') }}" class="text-blue-600 hover:underline">log in</a> or <a href="{{ route('register') }}" class="text-blue-600 hover:underline">register</a> to access your library.</p>
+    <p class="text-sm mt-4">Please <a href="{{ route('login') }}" class="text-blue-600 hover:underline">login</a> or <a href="{{ route('register') }}" class="text-amber-600 hover:underline">register</a> to access your library.</p>
 </div>
 @else
-<div class="bg-white rounded-lg shadow mx-auto max-w-5xl p-8 text-black text-center">
+<div class="bg-white rounded-lg shadow mx-auto max-w-7xl p-8 text-black text-center">
     <h1 class="text-3xl font-bold mb-2">Welcome, {{ auth()->user()->name }}!</h1>
     <p class="text-lg">Happy reading and managing your library at <span class="font-semibold">My Library</span> 📚</p>
 </div>
+
+@include('components.recommendation')
 @endguest
 <!-- Jumbotron End -->
 
-<div class="max-w-5xl mx-auto mt-10">
+<div class="max-w-7xl mx-auto mt-10">
     <h1 class="text-2xl font-bold mb-6">
         {{ isset($selectedGenre) ? 'Books in Genre: ' . $selectedGenre->name : 'All Books' }}
     </h1>
@@ -52,7 +54,7 @@
                 </div>
             </a>
         @empty
-            <div class="col-span-3 text-center text-gray-500">No books available.</div>
+            <div class="col-span-3 text-center text-gray-500">No books found.</div>
         @endforelse
     </div>
 </div>

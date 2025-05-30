@@ -10,14 +10,9 @@
         <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
         @if (session('success'))
             <div class="mb-4 text-green-600">{{ session('success') }}</div>
-        @endif
-        @if ($errors->any())
-            <div class="mb-4 text-red-600">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+        @elseif (session('error'))
+            <div class="mb-4 text-red-600 text-center">
+                {{ session('error') }}
             </div>
         @endif
         <form action="{{ route('login.store') }}" method="POST" class="space-y-4">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -55,16 +56,11 @@ class AuthController extends Controller
 
             $users = Auth::user();
 
-            $users->update([
-                'last_login' => now(),
-            ]);
-
             return redirect()->route('users.index')->with('success', 'Welcome back!');
         }
 
-
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+        return back()->with([
+            'error' => 'The provided credentials do not match our records.',
         ]);
     }
 

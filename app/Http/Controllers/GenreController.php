@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Genre;
-use Illuminate\Support\Facades\Auth;
 
 class GenreController extends Controller
 {

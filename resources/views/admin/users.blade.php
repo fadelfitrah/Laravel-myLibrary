@@ -9,27 +9,27 @@
         <table class="min-w-full bg-white mt-4">
             <thead>
                 <tr>
-                    <th class="py-2 px-4 border-b">Name</th>
-                    <th class="py-2 px-4 border-b">Email</th>
-                    <th class="py-2 px-4 border-b">Role</th>
-                    <th class="py-2 px-4 border-b">Status</th>
-                    <th class="py-2 px-4 border-b">Actions</th>
+                    <th class="py-4 px-4 border-b">Name</th>
+                    <th class="py-4 px-4 border-b">Email</th>
+                    <th class="py-4 px-4 border-b">Role</th>
+                    <th class="py-4 px-4 border-b">Status</th>
+                    <th class="py-4 px-4 border-b">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($users as $user)
                 <tr>
-                    <td class="py-2 px-4 border-b">{{ $user->name }}</td>
-                    <td class="py-2 px-4 border-b">{{ $user->email }}</td>
-                    <td class="py-2 px-4 border-b">{{ $user->role }}</td>
-                    <td class="py-2 px-4 border-b">
+                    <td class="py-4 px-4 border-b">{{ $user->name }}</td>
+                    <td class="py-4 px-4 border-b">{{ $user->email }}</td>
+                    <td class="py-4 px-4 border-b">{{ $user->role }}</td>
+                    <td class="py-4 px-4 border-b">
                         @if($user->is_active)
                           <span class="text-green-600 font-semibold">Active</span>
                         @else
                             <span class="text-gray-400 font-semibold">Inactive</span>
                         @endif
                     </td>
-                    <td class="py-2 px-4 border-b">
+                    <td class="py-4 px-4 border-b">
                         <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')

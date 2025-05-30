@@ -11,7 +11,7 @@ class BookController extends Controller
 {
     public function index()
     {
-        $genres = Genre::all()->paginate(20);
+        $genres = Genre::all();
         $books = Book::all();
         return view('users.dashboard', compact('books', 'genres'));
     }
@@ -48,5 +48,25 @@ class BookController extends Controller
             ->get();
 
         return view('users.dashboard', compact('books', 'genres'));
+    }
+
+    public function recommendedBook()
+    {
+        $user = auth()->user();
+
+        $lastBorrow = $user->borrows()->latest()->first();
+
+        if(!$lastBorrow) {
+            $recommendedBook = collect();
+        } else {
+            $lastGenreId = $lastBorrow->book->genre_id;
+
+            $borrowedBookIds = $user->borrows()->pluck('book_id');
+            $recommendedBooks = Book::where('genre_id', $lastGenreId)
+                ->whereNotIn('id', $borrowedBookIds)
+                ->get();
+        }
+
+        return view('users.dashboard', compact('recommendedBooks'));
     }
 }
